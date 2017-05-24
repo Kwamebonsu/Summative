@@ -1,4 +1,4 @@
-package rough.work;
+package summative;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,6 +25,7 @@ public class GameDrawing extends JComponent {
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
     Color grassGreen = new Color(0, 92, 9);
+    public static boolean[] keyID = new boolean[68836];
     // GAME VARIABLES END HERE   
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
@@ -67,8 +68,20 @@ public class GameDrawing extends JComponent {
         g.fillRect(1090, 400, 20, 100);
         g.fillRect(1090, 600, 20, 100);
         g.fillRect(1090, 800, 20, 100);
-        // Draw 2 Cars
-
+        // Draw a Cars
+        // Draw the Car Body
+        g.setColor(Color.RED);
+        g.fillRoundRect(220, 650, 160, 250, 35, 35);
+        // Front Windshield
+        g.setColor(Color.DARK_GRAY);
+        g.fillArc(220, 725, 160, 250, 70, 40);
+//        g.setColor(Color.RED);
+//        g.fillArc(265, 765, 70, 75, 40, 100);
+        // Back Windshield
+        g.setColor(Color.DARK_GRAY);
+        g.fillArc(220, 725, 160, 150, 220, 100);
+        g.setColor(Color.RED);
+        g.fillArc(265, 760, 70, 75, 220, 100);
         // GAME DRAWING ENDS HERE
     }
 
@@ -96,7 +109,9 @@ public class GameDrawing extends JComponent {
             startTime = System.currentTimeMillis();
 
             // all your game rules and move is done in here
-            // GAME LOGIC STARTS HERE 
+            // GAME LOGIC STARTS HERE
+            drive();
+
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -114,6 +129,17 @@ public class GameDrawing extends JComponent {
                 }
             } catch (Exception e) {
             };
+        }
+    }
+
+    private void drive() {
+        boolean forward = keyID[KeyEvent.VK_W];
+        boolean backward = keyID[KeyEvent.VK_S];
+        boolean right = keyID[KeyEvent.VK_D];
+        boolean left = keyID[KeyEvent.VK_A];
+        boolean pause = keyID[KeyEvent.VK_P];
+
+        if (forward = true) {
         }
     }
 
@@ -171,6 +197,10 @@ public class GameDrawing extends JComponent {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            if (keyCode > 0 || keyCode < keyID.length) {
+                keyID[keyCode] = true;
+            }
         }
 
         // if a key has been released
