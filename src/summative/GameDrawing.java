@@ -25,6 +25,15 @@ public class GameDrawing extends JComponent {
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
     Color grassGreen = new Color(0, 92, 9);
+    Color lightBlue = new Color(87, 139, 224);
+    Color carRED = new Color(247, 27, 27);
+    int redWidth = 220;
+    int blueWidth = 920;
+    int redHeight = 650;
+    int blueHeight = 650;
+    int lane = 800;
+    int move1 = 0;
+    int speed1 = 1;
     public static boolean[] keyID = new boolean[68836];
     // GAME VARIABLES END HERE   
     // drawing of the game happens in here
@@ -47,41 +56,75 @@ public class GameDrawing extends JComponent {
         // Draw lanes
         //Road 1
         g.setColor(Color.YELLOW);
-        g.fillRect(190, 0, 20, 100);
-        g.fillRect(190, 200, 20, 100);
-        g.fillRect(190, 400, 20, 100);
-        g.fillRect(190, 600, 20, 100);
-        g.fillRect(190, 800, 20, 100);
-        g.fillRect(390, 0, 20, 100);
-        g.fillRect(390, 200, 20, 100);
-        g.fillRect(390, 400, 20, 100);
-        g.fillRect(390, 600, 20, 100);
-        g.fillRect(390, 800, 20, 100);
+        g.fillRect(190, lane - 800, 20, 100);
+        g.fillRect(190, lane - 600, 20, 100);
+        g.fillRect(190, lane - 400, 20, 100);
+        g.fillRect(190, lane - 200, 20, 100);
+        g.fillRect(190, lane, 20, 100);
+        g.fillRect(390, lane - 800, 20, 100);
+        g.fillRect(390, lane - 600, 20, 100);
+        g.fillRect(390, lane - 400, 20, 100);
+        g.fillRect(390, lane - 200, 20, 100);
+        g.fillRect(390, lane, 20, 100);
+        g.fillRect(190, lane + 800, 20, 100);
+        g.fillRect(190, lane + 600, 20, 100);
+        g.fillRect(190, lane + 400, 20, 100);
+        g.fillRect(190, lane + 200, 20, 100);
+        g.fillRect(190, lane, 20, 100);
+        g.fillRect(390, lane + 800, 20, 100);
+        g.fillRect(390, lane + 600, 20, 100);
+        g.fillRect(390, lane + 400, 20, 100);
+        g.fillRect(390, lane + 200, 20, 100);
+        g.fillRect(390, lane, 20, 100);
         // Road 2
-        g.fillRect(890, 0, 20, 100);
-        g.fillRect(890, 200, 20, 100);
-        g.fillRect(890, 400, 20, 100);
-        g.fillRect(890, 600, 20, 100);
-        g.fillRect(890, 800, 20, 100);
-        g.fillRect(1090, 0, 20, 100);
-        g.fillRect(1090, 200, 20, 100);
-        g.fillRect(1090, 400, 20, 100);
-        g.fillRect(1090, 600, 20, 100);
-        g.fillRect(1090, 800, 20, 100);
+        g.fillRect(890, lane - 800, 20, 100);
+        g.fillRect(890, lane - 600, 20, 100);
+        g.fillRect(890, lane - 400, 20, 100);
+        g.fillRect(890, lane - 200, 20, 100);
+        g.fillRect(890, lane, 20, 100);
+        g.fillRect(1090, lane - 800, 20, 100);
+        g.fillRect(1090, lane - 600, 20, 100);
+        g.fillRect(1090, lane - 400, 20, 100);
+        g.fillRect(1090, lane - 200, 20, 100);
+        g.fillRect(1090, lane, 20, 100);
+        g.fillRect(890, lane + 800, 20, 100);
+        g.fillRect(890, lane + 600, 20, 100);
+        g.fillRect(890, lane + 400, 20, 100);
+        g.fillRect(890, lane + 200, 20, 100);
+        g.fillRect(890, lane, 20, 100);
+        g.fillRect(1090, lane + 800, 20, 100);
+        g.fillRect(1090, lane + 600, 20, 100);
+        g.fillRect(1090, lane + 400, 20, 100);
+        g.fillRect(1090, lane + 200, 20, 100);
+        g.fillRect(1090, lane, 20, 100);
         // Draw a Cars
         // Draw the Car Body
-        g.setColor(Color.RED);
-        g.fillRoundRect(220, 650, 160, 250, 35, 35);
+        g.setColor(carRED);
+        g.fillRoundRect(redWidth, redHeight, 160, 250, 35, 35);
         // Front Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(220, 725, 160, 250, 70, 40);
-//        g.setColor(Color.RED);
-//        g.fillArc(265, 765, 70, 75, 40, 100);
+        g.fillArc(redWidth - 70, redHeight + 75, 300, 250, 70, 40);
+        g.setColor(carRED);
+        g.fillArc(redWidth - 15, redHeight + 115, 190, 210, 67, 45);
         // Back Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(220, 725, 160, 150, 220, 100);
-        g.setColor(Color.RED);
-        g.fillArc(265, 760, 70, 75, 220, 100);
+        g.fillArc(redWidth - 70, redHeight - 15, 300, 250, 250, 40);
+        g.setColor(carRED);
+        g.fillArc(redWidth - 70, redHeight + 22, 300, 180, 248, 45);
+        // Draw the second car
+        // Draw the Car Body
+        g.setColor(lightBlue);
+        g.fillRoundRect(blueWidth, blueHeight, 160, 250, 35, 35);
+        // Front Windshield
+        g.setColor(Color.DARK_GRAY);
+        g.fillArc(blueWidth - 70, blueHeight + 75, 300, 250, 70, 40);
+        g.setColor(lightBlue);
+        g.fillArc(blueWidth - 15, blueHeight + 115, 190, 210, 67, 45);
+        // Back Windshield
+        g.setColor(Color.DARK_GRAY);
+        g.fillArc(blueWidth - 70, blueHeight - 15, 300, 250, 250, 40);
+        g.setColor(lightBlue);
+        g.fillArc(blueWidth - 70, blueHeight + 22, 300, 180, 248, 45);
         // GAME DRAWING ENDS HERE
     }
 
@@ -102,6 +145,7 @@ public class GameDrawing extends JComponent {
         preSetup();
 
         // the main game loop section
+
         // game will end if you set done = false;
         boolean done = false;
         while (!done) {
@@ -111,7 +155,14 @@ public class GameDrawing extends JComponent {
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
             drive();
-
+            if (lane <= 0) {
+                speed1 = 1;
+            }
+            if (lane >= 800) {
+                lane = 0;
+            }
+            lane = lane + speed1;
+            speed1 = speed1 + 1;
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -148,7 +199,7 @@ public class GameDrawing extends JComponent {
      */
     public static void main(String[] args) {
         // creates a windows to show my game
-        JFrame frame = new JFrame("My Game");
+        JFrame frame = new JFrame("Two Cars");
 
         // creates an instance of my game
         GameDrawing game = new GameDrawing();
