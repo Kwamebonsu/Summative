@@ -7,14 +7,16 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
  *
  * @author bonsk5852
  */
-public class GameDrawing extends JComponent {
+public class GameDrawing extends JComponent implements KeyListener {
 
     // Height and Width of our game
     static final int WIDTH = 1300;
@@ -33,7 +35,10 @@ public class GameDrawing extends JComponent {
     int blueHeight = 650;
     int lane = 800;
     int move1 = 0;
-    int speed1 = 1;
+    int speed1 = 2;
+    int obstacles1[] = new int[2];
+    boolean right1 = false, left1 = false;
+    boolean right2 = false, left2 = false;
     public static boolean[] keyID = new boolean[68836];
     // GAME VARIABLES END HERE   
     // drawing of the game happens in here
@@ -125,6 +130,20 @@ public class GameDrawing extends JComponent {
         g.fillArc(blueWidth - 70, blueHeight - 15, 300, 250, 250, 40);
         g.setColor(lightBlue);
         g.fillArc(blueWidth - 70, blueHeight + 22, 300, 180, 248, 45);
+        // Draw Obstacles
+
+        Random rand = new Random();
+        int space = rand.nextInt(3) + 1;
+        if (space == 70) {
+            g.fillOval(70, lane - 100, 60, 60);
+        }
+        if (space == 270) {
+            g.fillOval(270, lane - 100, 60, 60);
+        }
+        if (space == 470) {
+            g.fillOval(470, lane - 100, 60, 60);
+        }
+
         // GAME DRAWING ENDS HERE
     }
 
@@ -154,15 +173,27 @@ public class GameDrawing extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
-            drive();
             if (lane <= 0) {
                 speed1 = 1;
             }
             if (lane >= 800) {
                 lane = 0;
+                speed1 = speed1 + 1;
             }
             lane = lane + speed1;
-            speed1 = speed1 + 1;
+
+            if (right1 && redWidth < 440) {
+                redWidth += 10;
+
+            } else if (left1 && redWidth > 0) {
+                redWidth -= 10;
+            }
+            if (right2 && blueWidth < 1400 - 285) {
+                blueWidth += 10;
+            } else if (left2 && blueWidth > 700) {
+                blueWidth -= 10;
+            }
+
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -180,17 +211,6 @@ public class GameDrawing extends JComponent {
                 }
             } catch (Exception e) {
             };
-        }
-    }
-
-    private void drive() {
-        boolean forward = keyID[KeyEvent.VK_W];
-        boolean backward = keyID[KeyEvent.VK_S];
-        boolean right = keyID[KeyEvent.VK_D];
-        boolean left = keyID[KeyEvent.VK_A];
-        boolean pause = keyID[KeyEvent.VK_P];
-
-        if (forward = true) {
         }
     }
 
@@ -216,7 +236,7 @@ public class GameDrawing extends JComponent {
         frame.setVisible(true);
 
         // add listeners for keyboard and mouse
-        frame.addKeyListener(new Keyboard());
+        frame.addKeyListener(game);
         game.addMouseListener(new Mouse());
 
         // starts the game loop
@@ -243,20 +263,49 @@ public class GameDrawing extends JComponent {
     }
 
     // Used to implements any of the Keyboard Actions
-    private static class Keyboard extends KeyAdapter {
-        // if a key has been pressed down
+    // if a key has been pressed down
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_A:
+                left1 = true;
+                break;
+            case KeyEvent.VK_D:
+                right1 = true;
+                break;
+            case KeyEvent.VK_LEFT:
+                left2 = true;
+                break;
+            case KeyEvent.VK_RIGHT:
+                right2 = true;
+                break;
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            if (keyCode > 0 || keyCode < keyID.length) {
-                keyID[keyCode] = true;
-            }
         }
+    }
 
-        // if a key has been released
-        @Override
-        public void keyReleased(KeyEvent e) {
+    // if a key has been released
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_A:
+                left1 = false;
+                break;
+            case KeyEvent.VK_D:
+                right1 = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                left2 = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                right2 = false;
+                break;
+
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 }
