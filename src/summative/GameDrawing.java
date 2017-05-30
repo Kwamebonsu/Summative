@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,16 +27,19 @@ public class GameDrawing extends JComponent implements KeyListener {
     long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
+    // Create 2 Cars
+    Rectangle RedCar = new Rectangle(220, 650, 160, 250);
+    Rectangle BlueCar = new Rectangle(920, 650, 160, 250);
+    // Create colours for the grass and the cars
     Color grassGreen = new Color(0, 92, 9);
     Color lightBlue = new Color(87, 139, 224);
     Color carRED = new Color(247, 27, 27);
-    int redWidth = 220;
-    int blueWidth = 920;
-    int redHeight = 650;
-    int blueHeight = 650;
-    int lane = 800;
+    // Create variables to make the cars move
+    int Redlane = 800;
+    int Bluelane = 800;
     int move1 = 0;
     int speed1 = 2;
+    // Create variables for obstacles
     int obstacles1[] = new int[2];
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
@@ -61,88 +65,88 @@ public class GameDrawing extends JComponent implements KeyListener {
         // Draw lanes
         //Road 1
         g.setColor(Color.YELLOW);
-        g.fillRect(190, lane - 800, 20, 100);
-        g.fillRect(190, lane - 600, 20, 100);
-        g.fillRect(190, lane - 400, 20, 100);
-        g.fillRect(190, lane - 200, 20, 100);
-        g.fillRect(190, lane, 20, 100);
-        g.fillRect(390, lane - 800, 20, 100);
-        g.fillRect(390, lane - 600, 20, 100);
-        g.fillRect(390, lane - 400, 20, 100);
-        g.fillRect(390, lane - 200, 20, 100);
-        g.fillRect(390, lane, 20, 100);
-        g.fillRect(190, lane + 800, 20, 100);
-        g.fillRect(190, lane + 600, 20, 100);
-        g.fillRect(190, lane + 400, 20, 100);
-        g.fillRect(190, lane + 200, 20, 100);
-        g.fillRect(190, lane, 20, 100);
-        g.fillRect(390, lane + 800, 20, 100);
-        g.fillRect(390, lane + 600, 20, 100);
-        g.fillRect(390, lane + 400, 20, 100);
-        g.fillRect(390, lane + 200, 20, 100);
-        g.fillRect(390, lane, 20, 100);
+        g.fillRect(190, Redlane - 800, 20, 100);
+        g.fillRect(190, Redlane - 600, 20, 100);
+        g.fillRect(190, Redlane - 400, 20, 100);
+        g.fillRect(190, Redlane - 200, 20, 100);
+        g.fillRect(190, Redlane, 20, 100);
+        g.fillRect(390, Redlane - 800, 20, 100);
+        g.fillRect(390, Redlane - 600, 20, 100);
+        g.fillRect(390, Redlane - 400, 20, 100);
+        g.fillRect(390, Redlane - 200, 20, 100);
+        g.fillRect(390, Redlane, 20, 100);
+        g.fillRect(190, Redlane + 800, 20, 100);
+        g.fillRect(190, Redlane + 600, 20, 100);
+        g.fillRect(190, Redlane + 400, 20, 100);
+        g.fillRect(190, Redlane + 200, 20, 100);
+        g.fillRect(190, Redlane, 20, 100);
+        g.fillRect(390, Redlane + 800, 20, 100);
+        g.fillRect(390, Redlane + 600, 20, 100);
+        g.fillRect(390, Redlane + 400, 20, 100);
+        g.fillRect(390, Redlane + 200, 20, 100);
+        g.fillRect(390, Redlane, 20, 100);
         // Road 2
-        g.fillRect(890, lane - 800, 20, 100);
-        g.fillRect(890, lane - 600, 20, 100);
-        g.fillRect(890, lane - 400, 20, 100);
-        g.fillRect(890, lane - 200, 20, 100);
-        g.fillRect(890, lane, 20, 100);
-        g.fillRect(1090, lane - 800, 20, 100);
-        g.fillRect(1090, lane - 600, 20, 100);
-        g.fillRect(1090, lane - 400, 20, 100);
-        g.fillRect(1090, lane - 200, 20, 100);
-        g.fillRect(1090, lane, 20, 100);
-        g.fillRect(890, lane + 800, 20, 100);
-        g.fillRect(890, lane + 600, 20, 100);
-        g.fillRect(890, lane + 400, 20, 100);
-        g.fillRect(890, lane + 200, 20, 100);
-        g.fillRect(890, lane, 20, 100);
-        g.fillRect(1090, lane + 800, 20, 100);
-        g.fillRect(1090, lane + 600, 20, 100);
-        g.fillRect(1090, lane + 400, 20, 100);
-        g.fillRect(1090, lane + 200, 20, 100);
-        g.fillRect(1090, lane, 20, 100);
+        g.fillRect(890, Bluelane - 800, 20, 100);
+        g.fillRect(890, Bluelane - 600, 20, 100);
+        g.fillRect(890, Bluelane - 400, 20, 100);
+        g.fillRect(890, Bluelane - 200, 20, 100);
+        g.fillRect(890, Bluelane, 20, 100);
+        g.fillRect(1090, Bluelane - 800, 20, 100);
+        g.fillRect(1090, Bluelane - 600, 20, 100);
+        g.fillRect(1090, Bluelane - 400, 20, 100);
+        g.fillRect(1090, Bluelane - 200, 20, 100);
+        g.fillRect(1090, Bluelane, 20, 100);
+        g.fillRect(890, Bluelane + 800, 20, 100);
+        g.fillRect(890, Bluelane + 600, 20, 100);
+        g.fillRect(890, Bluelane + 400, 20, 100);
+        g.fillRect(890, Bluelane + 200, 20, 100);
+        g.fillRect(890, Bluelane, 20, 100);
+        g.fillRect(1090, Bluelane + 800, 20, 100);
+        g.fillRect(1090, Bluelane + 600, 20, 100);
+        g.fillRect(1090, Bluelane + 400, 20, 100);
+        g.fillRect(1090, Bluelane + 200, 20, 100);
+        g.fillRect(1090, Bluelane, 20, 100);
         // Draw a Cars
         // Draw the Car Body
         g.setColor(carRED);
-        g.fillRoundRect(redWidth, redHeight, 160, 250, 35, 35);
+        g.fillRoundRect(RedCar.x, RedCar.y, RedCar.width, RedCar.height, 35, 35);
         // Front Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(redWidth - 70, redHeight + 75, 300, 250, 70, 40);
+        g.fillArc(RedCar.x - 70, RedCar.y + 75, 300, 250, 70, 40);
         g.setColor(carRED);
-        g.fillArc(redWidth - 15, redHeight + 115, 190, 210, 67, 45);
+        g.fillArc(RedCar.x - 15, RedCar.y + 115, 190, 210, 67, 45);
         // Back Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(redWidth - 70, redHeight - 15, 300, 250, 250, 40);
+        g.fillArc(RedCar.x - 70, RedCar.y - 15, 300, 250, 250, 40);
         g.setColor(carRED);
-        g.fillArc(redWidth - 70, redHeight + 22, 300, 180, 248, 45);
+        g.fillArc(RedCar.x - 70, RedCar.y + 22, 300, 180, 248, 45);
         // Draw the second car
         // Draw the Car Body
         g.setColor(lightBlue);
-        g.fillRoundRect(blueWidth, blueHeight, 160, 250, 35, 35);
+        g.fillRoundRect(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, 35, 35);
         // Front Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(blueWidth - 70, blueHeight + 75, 300, 250, 70, 40);
+        g.fillArc(BlueCar.x - 70, BlueCar.y + 75, 300, 250, 70, 40);
         g.setColor(lightBlue);
-        g.fillArc(blueWidth - 15, blueHeight + 115, 190, 210, 67, 45);
+        g.fillArc(BlueCar.x - 15, BlueCar.y + 115, 190, 210, 67, 45);
         // Back Windshield
         g.setColor(Color.DARK_GRAY);
-        g.fillArc(blueWidth - 70, blueHeight - 15, 300, 250, 250, 40);
+        g.fillArc(BlueCar.x - 70, BlueCar.y - 15, 300, 250, 250, 40);
         g.setColor(lightBlue);
-        g.fillArc(blueWidth - 70, blueHeight + 22, 300, 180, 248, 45);
+        g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
         // Draw Obstacles
-
-        Random rand = new Random();
-        int space = rand.nextInt(3) + 1;
-        if (space == 70) {
-            g.fillOval(70, lane - 100, 60, 60);
-        }
-        if (space == 270) {
-            g.fillOval(270, lane - 100, 60, 60);
-        }
-        if (space == 470) {
-            g.fillOval(470, lane - 100, 60, 60);
-        }
+        g.fillOval(20, Redlane, 150, 150);
+//        Random rand = new Random();
+//        int space = rand.nextInt(3) + 1;
+//        if (space == 70) {
+//            g.fillOval(70, Redlane - 100, 60, 60);
+//        }
+//        if (space == 270) {
+//            g.fillOval(270, Redlane - 100, 60, 60);
+//        }
+//        if (space == 470) {
+//            g.fillOval(470, Redlane - 100, 60, 60);
+//        }
 
         // GAME DRAWING ENDS HERE
     }
@@ -173,25 +177,25 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
-            if (lane <= 0) {
+            if (Redlane <= 0) {
                 speed1 = 1;
             }
-            if (lane >= 800) {
-                lane = 0;
+            if (Redlane >= 800) {
+                Redlane = 0;
                 speed1 = speed1 + 1;
             }
-            lane = lane + speed1;
+            Redlane = Redlane + speed1;
 
-            if (right1 && redWidth < 440) {
-                redWidth += 10;
+            if (right1 && RedCar.x < 440) {
+                RedCar.x += 10;
 
-            } else if (left1 && redWidth > 0) {
-                redWidth -= 10;
+            } else if (left1 && RedCar.x > 0) {
+                RedCar.x -= 10;
             }
-            if (right2 && blueWidth < 1400 - 285) {
-                blueWidth += 10;
-            } else if (left2 && blueWidth > 700) {
-                blueWidth -= 10;
+            if (right2 && BlueCar.x < 1400 - 275) {
+                BlueCar.x += 10;
+            } else if (left2 && BlueCar.x > 700) {
+                BlueCar.x -= 10;
             }
 
             // GAME LOGIC ENDS HERE 
@@ -307,5 +311,8 @@ public class GameDrawing extends JComponent implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    public void collisions() {
     }
 }
