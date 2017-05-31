@@ -40,15 +40,17 @@ public class GameDrawing extends JComponent implements KeyListener {
     int move1 = 0;
     int speed1 = 2;
     // Create variables for obstacles
-    int obstacles1[] = new int[2];
+    Rectangle Redball = new Rectangle(0, Redlane, 60, 60);
+    Rectangle Blueball = new Rectangle(0, Bluelane, 60, 60);
+    // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
     public static boolean[] keyID = new boolean[68836];
+
     // GAME VARIABLES END HERE   
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
     // NOTE: This is already double buffered!(helps with framerate/speed)
-
     @Override
     public void paintComponent(Graphics g) {
         // always clear the screen first!
@@ -106,48 +108,46 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillRect(1090, Bluelane + 400, 20, 100);
         g.fillRect(1090, Bluelane + 200, 20, 100);
         g.fillRect(1090, Bluelane, 20, 100);
-        // Draw a Cars
+        // Draw the first Car
         // Draw the Car Body
         g.setColor(carRED);
         g.fillRoundRect(RedCar.x, RedCar.y, RedCar.width, RedCar.height, 35, 35);
+
         // Front Windshield
         g.setColor(Color.DARK_GRAY);
         g.fillArc(RedCar.x - 70, RedCar.y + 75, 300, 250, 70, 40);
+
         g.setColor(carRED);
         g.fillArc(RedCar.x - 15, RedCar.y + 115, 190, 210, 67, 45);
+
         // Back Windshield
         g.setColor(Color.DARK_GRAY);
         g.fillArc(RedCar.x - 70, RedCar.y - 15, 300, 250, 250, 40);
+
         g.setColor(carRED);
         g.fillArc(RedCar.x - 70, RedCar.y + 22, 300, 180, 248, 45);
+
         // Draw the second car
         // Draw the Car Body
         g.setColor(lightBlue);
         g.fillRoundRect(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, 35, 35);
+
         // Front Windshield
         g.setColor(Color.DARK_GRAY);
         g.fillArc(BlueCar.x - 70, BlueCar.y + 75, 300, 250, 70, 40);
+
         g.setColor(lightBlue);
         g.fillArc(BlueCar.x - 15, BlueCar.y + 115, 190, 210, 67, 45);
+
         // Back Windshield
         g.setColor(Color.DARK_GRAY);
         g.fillArc(BlueCar.x - 70, BlueCar.y - 15, 300, 250, 250, 40);
+
         g.setColor(lightBlue);
         g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
-        // Draw Obstacles
-        g.fillOval(20, Redlane, 150, 150);
-//        Random rand = new Random();
-//        int space = rand.nextInt(3) + 1;
-//        if (space == 70) {
-//            g.fillOval(70, Redlane - 100, 60, 60);
-//        }
-//        if (space == 270) {
-//            g.fillOval(270, Redlane - 100, 60, 60);
-//        }
-//        if (space == 470) {
-//            g.fillOval(470, Redlane - 100, 60, 60);
-//        }
 
+        // Draw Obstacles
+        g.fillOval(Redball.x, Redlane, Redball.width, Redball.height);
         // GAME DRAWING ENDS HERE
     }
 
@@ -177,15 +177,57 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
+
+            // Red Car Start
+            // Start moving
             if (Redlane <= 0) {
                 speed1 = 1;
             }
             if (Redlane >= 800) {
                 Redlane = 0;
                 speed1 = speed1 + 1;
+                // Randomly generate obstacles in one of the three lanes
+                Random rand = new Random();
+                int space = rand.nextInt(3) + 1;
+                if (space == 1) {
+                    Redball.x = 70;
+                }
+                if (space == 2) {
+                    Redball.x = 270;
+                }
+                if (space == 3) {
+                    Redball.x = 470;
+                }
             }
+            //Increase the speed
             Redlane = Redlane + speed1;
 
+
+            // Blue Car Start
+            // Start moving
+            if (Bluelane <= 0) {
+                speed1 = 1;
+            }
+            if (Bluelane >= 800) {
+                Bluelane = 0;
+                speed1 = speed1 + 1;
+                // Randomly generate obstacles in one of the three lanes
+                Random rand = new Random();
+                int space = rand.nextInt(3) + 1;
+                if (space == 1) {
+                    Blueball.x = 70;
+                }
+                if (space == 2) {
+                    Blueball.x = 270;
+                }
+                if (space == 3) {
+                    Blueball.x = 470;
+                }
+            }
+            //Increase the speed
+            Bluelane = Bluelane + speed1;
+
+            // Set controls for the carsadaddsda
             if (right1 && RedCar.x < 440) {
                 RedCar.x += 10;
 
@@ -197,7 +239,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             } else if (left2 && BlueCar.x > 700) {
                 BlueCar.x -= 10;
             }
-
+            collisions();
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -314,5 +356,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     }
 
     public void collisions() {
+        if (Redball.intersects(RedCar)) {
+            speed1 = 0;
+        }
     }
 }
