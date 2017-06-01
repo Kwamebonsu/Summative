@@ -8,16 +8,17 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.Random;
+import static summative.GameDrawing.WIDTH;
 
 /**
  *
  * @author bonsk5852
  */
-public class GameDrawing extends JComponent implements KeyListener {
+public class TwoCars extends JComponent {
 
     // Height and Width of our game
     static final int WIDTH = 1300;
@@ -168,7 +169,6 @@ public class GameDrawing extends JComponent implements KeyListener {
         preSetup();
 
         // the main game loop section
-
         // game will end if you set done = false;
         boolean done = false;
         while (!done) {
@@ -176,72 +176,9 @@ public class GameDrawing extends JComponent implements KeyListener {
             startTime = System.currentTimeMillis();
 
             // all your game rules and move is done in here
-            // GAME LOGIC STARTS HERE
+            // GAME LOGIC STARTS HERE 
 
-            // Red Car Start
-            // Start moving
-            if (Redlane <= 0) {
-                speed1 = 1;
-            }
-            if (Redlane >= 800) {
-                Redlane = 0;
-                speed1 = speed1 + 1;
-                // Randomly generate obstacles in one of the three lanes
-                Random rand = new Random();
-                int space = rand.nextInt(3) + 1;
-                if (space == 1) {
-                    Redball.x = 70;
-                }
-                if (space == 2) {
-                    Redball.x = 270;
-                }
-                if (space == 3) {
-                    Redball.x = 470;
-                }
-            }
-            //Increase the speed
-            Redlane = Redlane + speed1;
-            if (RedCar.intersects(Redball)) {
-                break;
-            }
 
-            // Blue Car Start
-            // Start moving
-            if (Bluelane <= 0) {
-                speed1 = 1;
-            }
-            if (Bluelane >= 800) {
-                Bluelane = 0;
-                speed1 = speed1 + 1;
-                // Randomly generate obstacles in one of the three lanes
-                Random rand = new Random();
-                int space = rand.nextInt(3) + 1;
-                if (space == 1) {
-                    Blueball.x = 70;
-                }
-                if (space == 2) {
-                    Blueball.x = 270;
-                }
-                if (space == 3) {
-                    Blueball.x = 470;
-                }
-            }
-            //Increase the speed
-            Bluelane = Bluelane + speed1;
-
-            // Set controls for the carsadaddsda
-            if (right1 && RedCar.x < 440) {
-                RedCar.x += 10;
-
-            } else if (left1 && RedCar.x > 0) {
-                RedCar.x -= 10;
-            }
-            if (right2 && BlueCar.x < 1400 - 275) {
-                BlueCar.x += 10;
-            } else if (left2 && BlueCar.x > 700) {
-                BlueCar.x -= 10;
-            }
-            collisions();
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -262,37 +199,8 @@ public class GameDrawing extends JComponent implements KeyListener {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // creates a windows to show my game
-        JFrame frame = new JFrame("Two Cars");
-
-        // creates an instance of my game
-        GameDrawing game = new GameDrawing();
-        // sets the size of my game
-        game.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        // adds the game to the window
-        frame.add(game);
-
-        // sets some options and size of the window automatically
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        // shows the window to the user
-        frame.setVisible(true);
-
-        // add listeners for keyboard and mouse
-        frame.addKeyListener(game);
-        game.addMouseListener(new Mouse());
-
-        // starts the game loop
-        game.run();
-    }
-
     // Used to implement any of the Mouse Actions
-    private static class Mouse extends MouseAdapter {
+    private class Mouse extends MouseAdapter {
         // if a mouse button has been pressed down
 
         @Override
@@ -304,6 +212,11 @@ public class GameDrawing extends JComponent implements KeyListener {
         public void mouseReleased(MouseEvent e) {
         }
 
+        // if the scroll wheel has been moved
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+        }
+
         // if the mouse has moved positions
         @Override
         public void mouseMoved(MouseEvent e) {
@@ -311,55 +224,27 @@ public class GameDrawing extends JComponent implements KeyListener {
     }
 
     // Used to implements any of the Keyboard Actions
-    // if a key has been pressed down
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_A:
-                left1 = true;
-                break;
-            case KeyEvent.VK_D:
-                right1 = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                left2 = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                right2 = true;
-                break;
+    private class Keyboard extends KeyAdapter {
+        // if a key has been pressed down
 
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        // if a key has been released
+        @Override
+        public void keyReleased(KeyEvent e) {
         }
     }
 
-    // if a key has been released
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_A:
-                left1 = false;
-                break;
-            case KeyEvent.VK_D:
-                right1 = false;
-                break;
-            case KeyEvent.VK_LEFT:
-                left2 = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                right2 = false;
-                break;
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // creates an instance of my game
+        TwoCars game = new TwoCars();
 
-        }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    public void collisions() {
-//        if (Redball.intersects(RedCar)) {
-//            speed1 = 0;
-//        }
+        // starts the game loop
+        game.run();
     }
 }
