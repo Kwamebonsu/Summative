@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -37,16 +38,28 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Create variables to make the cars move
     int Redlane = 800;
     int Bluelane = 800;
-    int move1 = 1600;
     int speed1 = 2;
+    int speed2 = 2;
+    int velRed = 3;
+    int velBlue = 3;
+    int Redlost = -1000;
     // Create variables for obstacles
-    Rectangle Redball = new Rectangle(0, Redlane, 60, 60);
-    Rectangle Blueball = new Rectangle(0, Bluelane, 60, 60);
+    Rectangle Redball = new Rectangle(0, 800, 60, 60);
+    Rectangle Blueball = new Rectangle(0, 800, 60, 60);
     // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
     public static boolean[] keyID = new boolean[68836];
+    //  Create a font
+    Font myFont = new Font("Arial", Font.BOLD, 75);
 
+//    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
+//        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
     // GAME VARIABLES END HERE   
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
@@ -67,46 +80,65 @@ public class GameDrawing extends JComponent implements KeyListener {
         // Draw lanes
         //Road 1
         g.setColor(Color.YELLOW);
-        g.fillRect(190, Redlane - 800, 20, 100);
-        g.fillRect(190, Redlane - 600, 20, 100);
-        g.fillRect(190, Redlane - 400, 20, 100);
-        g.fillRect(190, Redlane - 200, 20, 100);
-        g.fillRect(190, Redlane, 20, 100);
-        g.fillRect(390, Redlane - 800, 20, 100);
-        g.fillRect(390, Redlane - 600, 20, 100);
-        g.fillRect(390, Redlane - 400, 20, 100);
-        g.fillRect(390, Redlane - 200, 20, 100);
-        g.fillRect(390, Redlane, 20, 100);
         g.fillRect(190, Redlane + 800, 20, 100);
         g.fillRect(190, Redlane + 600, 20, 100);
         g.fillRect(190, Redlane + 400, 20, 100);
         g.fillRect(190, Redlane + 200, 20, 100);
+        g.fillRect(190, Redlane, 20, 100);
+        g.fillRect(190, Redlane - 1600, 20, 100);
+        g.fillRect(190, Redlane - 1400, 20, 100);
+        g.fillRect(190, Redlane - 1200, 20, 100);
+        g.fillRect(190, Redlane - 1000, 20, 100);
+        g.fillRect(190, Redlane - 800, 20, 100);
+        g.fillRect(190, Redlane - 600, 20, 100);
+        g.fillRect(190, Redlane - 400, 20, 100);
+        g.fillRect(190, Redlane - 200, 20, 100);
         g.fillRect(190, Redlane, 20, 100);
         g.fillRect(390, Redlane + 800, 20, 100);
         g.fillRect(390, Redlane + 600, 20, 100);
         g.fillRect(390, Redlane + 400, 20, 100);
         g.fillRect(390, Redlane + 200, 20, 100);
         g.fillRect(390, Redlane, 20, 100);
+        g.fillRect(390, Redlane - 1000, 20, 100);
+        g.fillRect(390, Redlane - 1600, 20, 100);
+        g.fillRect(390, Redlane - 1400, 20, 100);
+        g.fillRect(390, Redlane - 1200, 20, 100);
+        g.fillRect(390, Redlane - 800, 20, 100);
+        g.fillRect(390, Redlane - 600, 20, 100);
+        g.fillRect(390, Redlane - 400, 20, 100);
+        g.fillRect(390, Redlane - 200, 20, 100);
+        g.fillRect(390, Redlane, 20, 100);
+
+
+
         // Road 2
-        g.fillRect(890, Bluelane - 800, 20, 100);
-        g.fillRect(890, Bluelane - 600, 20, 100);
-        g.fillRect(890, Bluelane - 400, 20, 100);
-        g.fillRect(890, Bluelane - 200, 20, 100);
-        g.fillRect(890, Bluelane, 20, 100);
-        g.fillRect(1090, Bluelane - 800, 20, 100);
-        g.fillRect(1090, Bluelane - 600, 20, 100);
-        g.fillRect(1090, Bluelane - 400, 20, 100);
-        g.fillRect(1090, Bluelane - 200, 20, 100);
-        g.fillRect(1090, Bluelane, 20, 100);
         g.fillRect(890, Bluelane + 800, 20, 100);
         g.fillRect(890, Bluelane + 600, 20, 100);
         g.fillRect(890, Bluelane + 400, 20, 100);
         g.fillRect(890, Bluelane + 200, 20, 100);
         g.fillRect(890, Bluelane, 20, 100);
+        g.fillRect(890, Bluelane - 1600, 20, 100);
+        g.fillRect(890, Bluelane - 1400, 20, 100);
+        g.fillRect(890, Bluelane - 1200, 20, 100);
+        g.fillRect(890, Bluelane - 1000, 20, 100);
+        g.fillRect(890, Bluelane - 800, 20, 100);
+        g.fillRect(890, Bluelane - 600, 20, 100);
+        g.fillRect(890, Bluelane - 400, 20, 100);
+        g.fillRect(890, Bluelane - 200, 20, 100);
+        g.fillRect(890, Bluelane, 20, 100);
         g.fillRect(1090, Bluelane + 800, 20, 100);
         g.fillRect(1090, Bluelane + 600, 20, 100);
         g.fillRect(1090, Bluelane + 400, 20, 100);
         g.fillRect(1090, Bluelane + 200, 20, 100);
+        g.fillRect(1090, Bluelane, 20, 100);
+        g.fillRect(1090, Bluelane - 1000, 20, 100);
+        g.fillRect(1090, Bluelane - 1600, 20, 100);
+        g.fillRect(1090, Bluelane - 1400, 20, 100);
+        g.fillRect(1090, Bluelane - 1200, 20, 100);
+        g.fillRect(1090, Bluelane - 800, 20, 100);
+        g.fillRect(1090, Bluelane - 600, 20, 100);
+        g.fillRect(1090, Bluelane - 400, 20, 100);
+        g.fillRect(1090, Bluelane - 200, 20, 100);
         g.fillRect(1090, Bluelane, 20, 100);
         // Draw the first Car
         // Draw the Car Body
@@ -147,7 +179,12 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
 
         // Draw Obstacles
-        g.fillOval(Redball.x, Redlane, Redball.width, Redball.height);
+        g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
+        g.fillOval(Blueball.x, Blueball.y, Blueball.width, Blueball.height);
+        // You Lost!
+//        g.setFont(myFont);
+//        g.setColor(Color.PINK);
+//        g.drawString("You Lost", Redlost, 100);
         // GAME DRAWING ENDS HERE
     }
 
@@ -183,9 +220,14 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (Redlane <= 0) {
                 speed1 = 1;
             }
-            if (Redlane >= 800) {
+            if (Redlane >= 1600) {
                 Redlane = 0;
-                speed1 = speed1 + 1;
+                Redball.y = 0;
+                speed1 = velRed;
+
+                if (velRed > 0 && velRed < 20) {
+                    velRed++;
+                }
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
                 int space = rand.nextInt(3) + 1;
@@ -201,18 +243,28 @@ public class GameDrawing extends JComponent implements KeyListener {
             }
             //Increase the speed
             Redlane = Redlane + speed1;
+            Redball.y = Redball.y + speed1;
             if (RedCar.intersects(Redball)) {
                 break;
             }
 
+//            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
+//                break;
+//            }
+
             // Blue Car Start
             // Start moving
             if (Bluelane <= 0) {
-                speed1 = 1;
+                speed2 = 1;
             }
-            if (Bluelane >= 800) {
+            if (Bluelane >= 1600) {
                 Bluelane = 0;
-                speed1 = speed1 + 1;
+                Blueball.y = 0;
+                speed2 = velBlue;
+
+                if (velBlue > 0 && velBlue < 20) {
+                    velBlue++;
+                }
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
                 int space = rand.nextInt(3) + 1;
@@ -227,7 +279,15 @@ public class GameDrawing extends JComponent implements KeyListener {
                 }
             }
             //Increase the speed
-            Bluelane = Bluelane + speed1;
+            Bluelane = Bluelane + speed2;
+            Blueball.y = Blueball.y + speed2;
+            if (BlueCar.intersects(Blueball)) {
+                break;
+            }
+
+//            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
+//                break;
+//            }
 
             // Set controls for the carsadaddsda
             if (right1 && RedCar.x < 440) {
@@ -241,7 +301,6 @@ public class GameDrawing extends JComponent implements KeyListener {
             } else if (left2 && BlueCar.x > 700) {
                 BlueCar.x -= 10;
             }
-            collisions();
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -355,11 +414,5 @@ public class GameDrawing extends JComponent implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-    }
-
-    public void collisions() {
-//        if (Redball.intersects(RedCar)) {
-//            speed1 = 0;
-//        }
     }
 }
