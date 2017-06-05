@@ -49,6 +49,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
+    boolean forward1 = false, back1 = false;
+    boolean forward2 = false, back2 = false;
     public static boolean[] keyID = new boolean[68836];
     //  Create a font
     Font myFont = new Font("Arial", Font.BOLD, 75);
@@ -244,6 +246,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             //Increase the speed
             Redlane = Redlane + speed1;
             Redball.y = Redball.y + speed1;
+            // Break the loop if it collides with the obstacle
             if (RedCar.intersects(Redball)) {
                 break;
             }
@@ -267,20 +270,21 @@ public class GameDrawing extends JComponent implements KeyListener {
                 }
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
-                int space = rand.nextInt(3) + 1;
-                if (space == 1) {
-                    Blueball.x = 70;
+                int object = rand.nextInt(3) + 1;
+                if (object == 1) {
+                    Blueball.x = 770;
                 }
-                if (space == 2) {
-                    Blueball.x = 270;
+                if (object == 2) {
+                    Blueball.x = 970;
                 }
-                if (space == 3) {
-                    Blueball.x = 470;
+                if (object == 3) {
+                    Blueball.x = 1170;
                 }
             }
             //Increase the speed
             Bluelane = Bluelane + speed2;
             Blueball.y = Blueball.y + speed2;
+            // Break the loop if it collides with the obstacle
             if (BlueCar.intersects(Blueball)) {
                 break;
             }
@@ -291,16 +295,30 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // Set controls for the carsadaddsda
             if (right1 && RedCar.x < 440) {
-                RedCar.x += 10;
-
-            } else if (left1 && RedCar.x > 0) {
-                RedCar.x -= 10;
+                RedCar.x += 15;
+            }
+            if (left1 && RedCar.x > 0) {
+                RedCar.x -= 15;
             }
             if (right2 && BlueCar.x < 1400 - 275) {
-                BlueCar.x += 10;
-            } else if (left2 && BlueCar.x > 700) {
-                BlueCar.x -= 10;
+                BlueCar.x += 15;
             }
+            if (left2 && BlueCar.x > 700) {
+                BlueCar.x -= 15;
+            }
+            if (forward1 && RedCar.y > 0) {
+                RedCar.y -= 10;
+            }
+            if (forward2 && BlueCar.y > 0) {
+                BlueCar.y -= 10;
+            }
+            if (back1 && RedCar.y < 650) {
+                RedCar.y += 10;
+            }
+            if (back2 && BlueCar.y < 650) {
+                BlueCar.y += 10;
+            }
+
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -387,6 +405,18 @@ public class GameDrawing extends JComponent implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 right2 = true;
                 break;
+            case KeyEvent.VK_W:
+                forward1 = true;
+                break;
+            case KeyEvent.VK_S:
+                back1 = true;
+                break;
+            case KeyEvent.VK_UP:
+                forward2 = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                back2 = true;
+                break;
 
         }
     }
@@ -408,7 +438,18 @@ public class GameDrawing extends JComponent implements KeyListener {
             case KeyEvent.VK_RIGHT:
                 right2 = false;
                 break;
-
+            case KeyEvent.VK_UP:
+                forward2 = false;
+                break;
+            case KeyEvent.VK_W:
+                forward1 = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                back2 = false;
+                break;
+            case KeyEvent.VK_S:
+                back1 = false;
+                break;
         }
     }
 
