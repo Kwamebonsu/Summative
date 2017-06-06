@@ -42,7 +42,12 @@ public class GameDrawing extends JComponent implements KeyListener {
     int speed2 = 2;
     int velRed = 3;
     int velBlue = 3;
-    int Redlost = -1000;
+    // Create Variables for text
+    int Loser = -1000;
+    int Winner = -1000;
+    // Create Scoring variables
+    int Redcounter = 0;
+    int Bluecounter = 0;
     // Create variables for obstacles
     Rectangle Redball = new Rectangle(0, 800, 60, 60);
     Rectangle Blueball = new Rectangle(0, 800, 60, 60);
@@ -53,7 +58,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     boolean forward2 = false, back2 = false;
     public static boolean[] keyID = new boolean[68836];
     //  Create a font
-    Font myFont = new Font("Arial", Font.BOLD, 75);
+    Font myFont = new Font("Arial", Font.CENTER_BASELINE, 75);
 
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
 //        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
@@ -184,9 +189,13 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
         g.fillOval(Blueball.x, Blueball.y, Blueball.width, Blueball.height);
         // You Lost!
-//        g.setFont(myFont);
-//        g.setColor(Color.PINK);
-//        g.drawString("You Lost", Redlost, 100);
+        g.setFont(myFont);
+        g.setColor(Color.PINK);
+        g.drawString("You Lose", Loser, 100);
+        g.drawString("You won", Winner, 100);
+        // Draw counter
+        g.drawString("" + Redcounter, 210, 200);
+        g.drawString("" + Bluecounter, 910, 200);
         // GAME DRAWING ENDS HERE
     }
 
@@ -216,7 +225,12 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
-
+            if (RedCar.y > -4000) {
+                Redcounter = Redcounter + 1;
+            }
+            if (BlueCar.y > -4000) {
+                Bluecounter = Bluecounter + 1;
+            }
             // Red Car Start
             // Start moving
             if (Redlane <= 0) {
@@ -226,7 +240,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Redlane = 0;
                 Redball.y = 0;
                 speed1 = velRed;
-
+                // Speed up every time the car passes an obstacle
                 if (velRed > 0 && velRed < 20) {
                     velRed++;
                 }
@@ -246,11 +260,15 @@ public class GameDrawing extends JComponent implements KeyListener {
             //Increase the speed
             Redlane = Redlane + speed1;
             Redball.y = Redball.y + speed1;
-            // Break the loop if it collides with the obstacle
+            // Stop moving if it collides with the obstacle
             if (RedCar.intersects(Redball)) {
-                break;
+                if (Loser != 800 && Winner != 100) {
+                    Loser = 100;
+                    Winner = 800;
+                }
+                speed1 = 0;
+                RedCar.y = -10000;
             }
-
 //            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
 //                break;
 //            }
@@ -264,7 +282,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Bluelane = 0;
                 Blueball.y = 0;
                 speed2 = velBlue;
-
+                // Speed up every time the car passes an obstacle
                 if (velBlue > 0 && velBlue < 20) {
                     velBlue++;
                 }
@@ -286,9 +304,18 @@ public class GameDrawing extends JComponent implements KeyListener {
             Blueball.y = Blueball.y + speed2;
             // Break the loop if it collides with the obstacle
             if (BlueCar.intersects(Blueball)) {
-                break;
+                if (Loser != 100 && Winner != 800) {
+                    Loser = 800;
+                    Winner = 100;
+                }
+                BlueCar.y = -10000;
+                speed2 = 0;
             }
 
+            // Break the loop once both cars collide
+            if (speed1 == 0 && speed2 == 0) {
+                done = true;
+            }
 //            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
 //                break;
 //            }
