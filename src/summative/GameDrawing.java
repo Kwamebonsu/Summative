@@ -51,6 +51,9 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Create variables for obstacles
     Rectangle Redball = new Rectangle(0, 800, 60, 60);
     Rectangle Blueball = new Rectangle(0, 800, 60, 60);
+    // Create bonus obstacles
+    Rectangle RedBonus = new Rectangle(0, 835, 30, 30);
+    Rectangle BlueBonus = new Rectangle(0, 835, 30, 30);
     // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
@@ -184,10 +187,38 @@ public class GameDrawing extends JComponent implements KeyListener {
 
         g.setColor(lightBlue);
         g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
+        // Draw Bonus Obstacles
+        g.setColor(Color.yellow);
+        g.fillOval(RedBonus.x, RedBonus.y, RedBonus.width, RedBonus.height);
+        g.fillOval(BlueBonus.x, BlueBonus.y, BlueBonus.width, BlueBonus.height);
 
+        // Draw Bonus Obstacles
+        g.setColor(Color.yellow);
+        g.fillOval(RedBonus.x, RedBonus.y, RedBonus.width, RedBonus.height);
+        g.fillOval(BlueBonus.x, BlueBonus.y, BlueBonus.width, BlueBonus.height);
         // Draw Obstacles
+        g.setColor(Color.blue);
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
         g.fillOval(Blueball.x, Blueball.y, Blueball.width, Blueball.height);
+
+
+
+
+
+
+
+        // Draw bonus obstacles
+
+
+
+
+
+
+
+
+
+
+
         // You Lost!
         g.setFont(myFont);
         g.setColor(Color.PINK);
@@ -239,12 +270,13 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (Redlane >= 1600) {
                 Redlane = 0;
                 Redball.y = 0;
+                RedBonus.y = 0;
                 speed1 = velRed;
                 // Speed up every time the car passes an obstacle
                 if (velRed > 0 && velRed < 20) {
                     velRed++;
                 }
-                // Randomly generate obstacles in one of the three lanes
+                // Randomly Generate Bonus Obstacles
                 Random rand = new Random();
                 int space = rand.nextInt(3) + 1;
                 if (space == 1) {
@@ -256,18 +288,35 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (space == 3) {
                     Redball.x = 470;
                 }
+                // Randomly generate obstacles in one of the three lanes
+                Random Bonus = new Random();
+                int Bonusobject = Bonus.nextInt(3) + 1;
+                if (Bonusobject == 1) {
+                    RedBonus.x = 85;
+                }
+                if (Bonusobject == 2) {
+                    RedBonus.x = 285;
+                }
+                if (Bonusobject == 3) {
+                    RedBonus.x = 485;
+                }
             }
             //Increase the speed
+            RedBonus.y = RedBonus.y + speed1;
             Redlane = Redlane + speed1;
             Redball.y = Redball.y + speed1;
             // Stop moving if it collides with the obstacle
             if (RedCar.intersects(Redball)) {
-                if (Loser != 800 && Winner != 100) {
-                    Loser = 100;
-                    Winner = 800;
-                }
+//                if (Loser != 800 && Winner != 100) {
+//                    Loser = 100;
+//                    Winner = 800;
+//                }
                 speed1 = 0;
                 RedCar.y = -10000;
+            }
+            if(RedCar.intersects(RedBonus)){
+                Redcounter = Redcounter +100;
+                RedBonus.y = 1000;
             }
 //            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
 //                break;
@@ -281,12 +330,25 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (Bluelane >= 1600) {
                 Bluelane = 0;
                 Blueball.y = 0;
+                BlueBonus.y = 0;
                 speed2 = velBlue;
                 // Speed up every time the car passes an obstacle
                 if (velBlue > 0 && velBlue < 20) {
                     velBlue++;
                 }
                 // Randomly generate obstacles in one of the three lanes
+                Random Bonus = new Random();
+                int Bonusobject = Bonus.nextInt(3) + 1;
+                if (Bonusobject == 1) {
+                    BlueBonus.x = 785;
+                }
+                if (Bonusobject == 2) {
+                    BlueBonus.x = 985;
+                }
+                if (Bonusobject == 3) {
+                    BlueBonus.x = 1185;
+                }
+                
                 Random rand = new Random();
                 int object = rand.nextInt(3) + 1;
                 if (object == 1) {
@@ -302,18 +364,32 @@ public class GameDrawing extends JComponent implements KeyListener {
             //Increase the speed
             Bluelane = Bluelane + speed2;
             Blueball.y = Blueball.y + speed2;
+            BlueBonus.y = BlueBonus.y + speed2;
             // Break the loop if it collides with the obstacle
             if (BlueCar.intersects(Blueball)) {
-                if (Loser != 100 && Winner != 800) {
-                    Loser = 800;
-                    Winner = 100;
-                }
+//                if (Loser != 100 && Winner != 800) {
+//                    Loser = 800;
+//                    Winner = 100;
+//                }
                 BlueCar.y = -10000;
                 speed2 = 0;
+            }
+            if(BlueCar.intersects(BlueBonus)){
+                Bluecounter = Bluecounter +100;
+                BlueBonus.y = 1000;
             }
 
             // Break the loop once both cars collide
             if (speed1 == 0 && speed2 == 0) {
+                if(Redcounter < Bluecounter){
+                    Loser = 800;
+                    Winner = 100;
+                }
+                if(Redcounter < Bluecounter){
+                    Winner = 800;
+                    Loser = 100;
+                }
+                
                 done = true;
             }
 //            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
