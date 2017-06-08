@@ -28,6 +28,9 @@ public class GameDrawing extends JComponent implements KeyListener {
     long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
+    // Create variables to reset the game
+    int resetText = -1000;
+    boolean resetgame = false;
     // Create 2 Cars
     Rectangle RedCar = new Rectangle(220, 650, 160, 250);
     Rectangle BlueCar = new Rectangle(920, 650, 160, 250);
@@ -35,7 +38,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     Color grassGreen = new Color(0, 92, 9);
     Color lightBlue = new Color(87, 139, 224);
     Color carRED = new Color(247, 27, 27);
-    // Create variables to make the cars move
+    // Create variables to make the cars appear to move
     int Redlane = 800;
     int Bluelane = 800;
     int speed1 = 2;
@@ -201,24 +204,6 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
         g.fillOval(Blueball.x, Blueball.y, Blueball.width, Blueball.height);
 
-
-
-
-
-
-
-        // Draw bonus obstacles
-
-
-
-
-
-
-
-
-
-
-
         // You Lost!
         g.setFont(myFont);
         g.setColor(Color.PINK);
@@ -227,6 +212,9 @@ public class GameDrawing extends JComponent implements KeyListener {
         // Draw counter
         g.drawString("" + Redcounter, 210, 200);
         g.drawString("" + Bluecounter, 910, 200);
+
+        // Draw text to restart the game
+        g.drawString("Press SPACE to restart", resetText, 500);
         // GAME DRAWING ENDS HERE
     }
 
@@ -256,14 +244,16 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
+            // Start the counter for the red car
             if (RedCar.y > -4000) {
                 Redcounter = Redcounter + 1;
             }
+            // Start the counter for the blue car
             if (BlueCar.y > -4000) {
                 Bluecounter = Bluecounter + 1;
             }
             // Red Car Start
-            // Start moving
+            // Make the car appear to move
             if (Redlane <= 0) {
                 speed1 = 1;
             }
@@ -276,7 +266,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (velRed > 0 && velRed < 20) {
                     velRed++;
                 }
-                // Randomly Generate Bonus Obstacles
+                // Randomly Generate Bonus Obstacles in one of the three lanes
                 Random rand = new Random();
                 int space = rand.nextInt(3) + 1;
                 if (space == 1) {
@@ -314,8 +304,9 @@ public class GameDrawing extends JComponent implements KeyListener {
                 speed1 = 0;
                 RedCar.y = -10000;
             }
-            if(RedCar.intersects(RedBonus)){
-                Redcounter = Redcounter +100;
+            // Add 100 points if the car collides with a bonus obstacle
+            if (RedCar.intersects(RedBonus)) {
+                Redcounter = Redcounter + 100;
                 RedBonus.y = 1000;
             }
 //            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
@@ -323,7 +314,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //            }
 
             // Blue Car Start
-            // Start moving
+            // Make the car appear to move
             if (Bluelane <= 0) {
                 speed2 = 1;
             }
@@ -336,7 +327,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (velBlue > 0 && velBlue < 20) {
                     velBlue++;
                 }
-                // Randomly generate obstacles in one of the three lanes
+                // Randomly generate bonus obstacles in one of the three lanes
                 Random Bonus = new Random();
                 int Bonusobject = Bonus.nextInt(3) + 1;
                 if (Bonusobject == 1) {
@@ -348,7 +339,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (Bonusobject == 3) {
                     BlueBonus.x = 1185;
                 }
-                
+                // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
                 int object = rand.nextInt(3) + 1;
                 if (object == 1) {
@@ -374,50 +365,82 @@ public class GameDrawing extends JComponent implements KeyListener {
                 BlueCar.y = -10000;
                 speed2 = 0;
             }
-            if(BlueCar.intersects(BlueBonus)){
-                Bluecounter = Bluecounter +100;
+            // Add 100 points if the blue car collides with a bonus obstacle
+            if (BlueCar.intersects(BlueBonus)) {
+                Bluecounter = Bluecounter + 100;
                 BlueBonus.y = 1000;
             }
 
             // Break the loop once both cars collide
             if (speed1 == 0 && speed2 == 0) {
-                if(Redcounter < Bluecounter){
+                if (Redcounter < Bluecounter) {
                     Loser = 800;
                     Winner = 100;
                 }
-                if(Redcounter < Bluecounter){
+                if (Redcounter < Bluecounter) {
                     Winner = 800;
                     Loser = 100;
                 }
-                
+                // Restart the game by pressing space
+
+                resetText = 250;
                 done = true;
+//                if(resetgame == true){
+                if (resetgame) {
+                    Redcounter = 0;
+                    Bluecounter = 0;
+                    Redlane = 800;
+                    Bluelane = 800;
+                    speed1 = 2;
+                    speed2 = 2;
+                    velRed = 3;
+                    velBlue = 3;
+                    resetText = -2250;
+                    Redball.y = 800;
+                    Blueball.y = 800;
+                    RedBonus.y = 835;
+                    BlueBonus.y = 835;
+                    RedCar.y = 550;
+                    BlueCar.y = 550;
+                    Loser = -1000;
+                    Winner = -1000;
+                    done = false;
+                }
             }
 //            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
 //                break;
 //            }
 
-            // Set controls for the carsadaddsda
+            // Set controls for movement
+            // Red Car right
             if (right1 && RedCar.x < 440) {
                 RedCar.x += 15;
             }
+            // Red Car left
             if (left1 && RedCar.x > 0) {
                 RedCar.x -= 15;
             }
+            // Blue car right
             if (right2 && BlueCar.x < 1400 - 275) {
                 BlueCar.x += 15;
             }
+            // Blue car left
             if (left2 && BlueCar.x > 700) {
                 BlueCar.x -= 15;
             }
+            // Red car forward
             if (forward1 && RedCar.y > 0) {
                 RedCar.y -= 10;
             }
+            // Blue car forward
             if (forward2 && BlueCar.y > 0) {
                 BlueCar.y -= 10;
             }
+            // Red car backward
             if (back1 && RedCar.y < 650) {
                 RedCar.y += 10;
             }
+            // Blue car backward
             if (back2 && BlueCar.y < 650) {
                 BlueCar.y += 10;
             }
@@ -520,6 +543,9 @@ public class GameDrawing extends JComponent implements KeyListener {
             case KeyEvent.VK_DOWN:
                 back2 = true;
                 break;
+            case KeyEvent.VK_SPACE:
+                resetgame = true;
+                break;
 
         }
     }
@@ -552,6 +578,9 @@ public class GameDrawing extends JComponent implements KeyListener {
                 break;
             case KeyEvent.VK_S:
                 back1 = false;
+                break;
+            case KeyEvent.VK_SPACE:
+                resetgame = false;
                 break;
         }
     }
