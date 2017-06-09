@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.InputStream;
 import java.util.Random;
 
 /**
@@ -65,6 +66,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     public static boolean[] keyID = new boolean[68836];
     //  Create a font
     Font myFont = new Font("Arial", Font.CENTER_BASELINE, 75);
+    // Sound effects
+    InputStream crash;
 
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
 //        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
@@ -244,6 +247,13 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
+
+
+
+
+
+
+
             // Start the counter for the red car
             if (RedCar.y > -4000) {
                 Redcounter = Redcounter + 1;
@@ -382,30 +392,31 @@ public class GameDrawing extends JComponent implements KeyListener {
                     Loser = 100;
                 }
                 // Restart the game by pressing space
-
                 resetText = 250;
-                done = true;
+
+                repaint();
 //                if(resetgame == true){
-                if (resetgame) {
-                    Redcounter = 0;
-                    Bluecounter = 0;
-                    Redlane = 800;
-                    Bluelane = 800;
-                    speed1 = 2;
-                    speed2 = 2;
-                    velRed = 3;
-                    velBlue = 3;
-                    resetText = -2250;
-                    Redball.y = 800;
-                    Blueball.y = 800;
-                    RedBonus.y = 835;
-                    BlueBonus.y = 835;
-                    RedCar.y = 550;
-                    BlueCar.y = 550;
-                    Loser = -1000;
-                    Winner = -1000;
-                    done = false;
+                while (!resetgame) {
                 }
+                Redcounter = 0;
+                Bluecounter = 0;
+                Redlane = 800;
+                Bluelane = 800;
+                speed1 = 2;
+                speed2 = 2;
+                velRed = 3;
+                velBlue = 3;
+                resetText = -2250;
+                Redball.y = 800;
+                Blueball.y = 800;
+                RedBonus.y = 835;
+                BlueBonus.y = 835;
+                RedCar.y = 550;
+                BlueCar.y = 550;
+                Loser = -1000;
+                Winner = -1000;
+                resetgame = false;
+
             }
 //            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
 //                break;
