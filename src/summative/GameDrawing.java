@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.InputStream;
 import java.util.Random;
 
 /**
@@ -33,12 +32,14 @@ public class GameDrawing extends JComponent implements KeyListener {
     int resetText = -1000;
     boolean resetgame = false;
     // Create 2 Cars
-    Rectangle RedCar = new Rectangle(220, 650, 160, 250);
-    Rectangle BlueCar = new Rectangle(920, 650, 160, 250);
+    Rectangle RedCar = new Rectangle(230, 650, 160, 245);
+    Rectangle BlueCar = new Rectangle(930, 650, 160, 245);
     // Create colours for the grass and the cars
     Color grassGreen = new Color(0, 92, 9);
     Color lightBlue = new Color(87, 139, 224);
     Color carRED = new Color(247, 27, 27);
+    Color MyColour1 = new Color(0, 0, 0);
+    Color MyColour2 = new Color(0, 0, 0);
     // Create variables to make the cars appear to move
     int Redlane = 800;
     int Bluelane = 800;
@@ -49,6 +50,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Create Variables for text
     int Loser = -1000;
     int Winner = -1000;
+    int YouTied1 = -1000;
+    int YouTied2 = -1000;
     // Create Scoring variables
     int Redcounter = 0;
     int Bluecounter = 0;
@@ -66,9 +69,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     public static boolean[] keyID = new boolean[68836];
     //  Create a font
     Font myFont = new Font("Arial", Font.CENTER_BASELINE, 75);
-    // Sound effects
-    InputStream crash;
 
+    // Sound effects
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
 //        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
 //            return false;
@@ -209,15 +211,21 @@ public class GameDrawing extends JComponent implements KeyListener {
 
         // You Lost!
         g.setFont(myFont);
-        g.setColor(Color.PINK);
+        g.setColor(MyColour1);
         g.drawString("You Lose", Loser, 100);
+        g.setColor(MyColour2);
         g.drawString("You won", Winner, 100);
-        // Draw counter
-        g.drawString("" + Redcounter, 210, 200);
-        g.drawString("" + Bluecounter, 910, 200);
-
+        g.drawString("You tied", YouTied1, 100);
+        g.drawString("You tied", YouTied2, 100);
         // Draw text to restart the game
         g.drawString("Press SPACE to restart", resetText, 500);
+        // Draw counter
+        g.setColor(carRED);
+        g.drawString("" + Redcounter, 210, 200);
+        g.setColor(lightBlue);
+        g.drawString("" + Bluecounter, 910, 200);
+
+
         // GAME DRAWING ENDS HERE
     }
 
@@ -263,7 +271,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Bluecounter = Bluecounter + 1;
             }
             // Red Car Start
-            // Make the car appear to move
+            // Make the Red car appear to move
             if (Redlane <= 0) {
                 speed1 = 1;
             }
@@ -383,13 +391,21 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // Break the loop once both cars collide
             if (speed1 == 0 && speed2 == 0) {
-                if (Redcounter < Bluecounter) {
+                if (Redcounter > Bluecounter) {
+                    MyColour2 = carRED;
+                    MyColour1 = lightBlue;
                     Loser = 800;
                     Winner = 100;
                 }
                 if (Redcounter < Bluecounter) {
+                    MyColour1 = carRED;
+                    MyColour2 = lightBlue;
                     Winner = 800;
                     Loser = 100;
+                }
+                if (Redcounter == Bluecounter) {
+                    YouTied1 = 800;
+                    YouTied2 = 100;
                 }
                 // Restart the game by pressing space
                 resetText = 250;
