@@ -1,5 +1,6 @@
 package summative;
 
+import jaco.mp3.player.MP3Player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JComponent;
@@ -25,7 +26,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     static final int HEIGHT = 900;
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
-    long desiredFPS = 60;
+    long desiredFPS = 100;
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
     // Create variables to reset the game
@@ -38,8 +39,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     Color grassGreen = new Color(0, 92, 9);
     Color lightBlue = new Color(87, 139, 224);
     Color carRED = new Color(247, 27, 27);
-    Color MyColour1 = new Color(0, 0, 0);
-    Color MyColour2 = new Color(0, 0, 0);
+    Color MyColour1 = new Color(250, 250, 250);
+    Color MyColour2 = new Color(250, 250, 250);
     // Create variables to make the cars appear to move
     int Redlane = 800;
     int Bluelane = 800;
@@ -69,8 +70,13 @@ public class GameDrawing extends JComponent implements KeyListener {
     public static boolean[] keyID = new boolean[68836];
     //  Create a font
     Font myFont = new Font("Arial", Font.CENTER_BASELINE, 75);
-
-    // Sound effects
+    Font Instructions = new Font("Arial", Font.CENTER_BASELINE, 54);
+    // Create Variables for instructions
+    int InstructionsPosition = 360;
+    // Sound Effects
+    MP3Player crash = new MP3Player(ClassLoader.getSystemResource("audio/CRASH.mp3"));
+    MP3Player screech = new MP3Player(ClassLoader.getSystemResource("audio/TireScreech.mp3"));
+    MP3Player Music = new MP3Player(ClassLoader.getSystemResource("audio/Instrumental.mp3"));
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
 //        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
 //            return false;
@@ -82,6 +88,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
     // NOTE: This is already double buffered!(helps with framerate/speed)
+
     @Override
     public void paintComponent(Graphics g) {
         // always clear the screen first!
@@ -215,17 +222,22 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.drawString("You Lose", Loser, 100);
         g.setColor(MyColour2);
         g.drawString("You won", Winner, 100);
+        g.setColor(Color.WHITE);
         g.drawString("You tied", YouTied1, 100);
         g.drawString("You tied", YouTied2, 100);
         // Draw text to restart the game
+        g.setColor(MyColour2);
         g.drawString("Press SPACE to restart", resetText, 500);
         // Draw counter
         g.setColor(carRED);
         g.drawString("" + Redcounter, 210, 200);
         g.setColor(lightBlue);
         g.drawString("" + Bluecounter, 910, 200);
-
-
+        // Draw the instructions at the beginning of the game
+        g.setFont(Instructions);
+        g.setColor(Color.WHITE);
+        g.drawString("Avoid the blue circles", InstructionsPosition, 400);
+        g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
         // GAME DRAWING ENDS HERE
     }
 
@@ -262,6 +274,10 @@ public class GameDrawing extends JComponent implements KeyListener {
 
 
 
+            // Remove the instructions from the screen once the counter reaches 400
+            if (Redcounter >= 400 || Bluecounter >= 400) {
+                InstructionsPosition = -3000;
+            }
             // Start the counter for the red car
             if (RedCar.y > -4000) {
                 Redcounter = Redcounter + 1;
@@ -270,6 +286,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (BlueCar.y > -4000) {
                 Bluecounter = Bluecounter + 1;
             }
+
             // Red Car Start
             // Make the Red car appear to move
             if (Redlane <= 0) {
@@ -321,6 +338,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //                }
                 speed1 = 0;
                 RedCar.y = -10000;
+                crash.play();
             }
             // Add 100 points if the car collides with a bonus obstacle
             if (RedCar.intersects(RedBonus)) {
@@ -382,6 +400,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //                }
                 BlueCar.y = -10000;
                 speed2 = 0;
+                crash.play();
             }
             // Add 100 points if the blue car collides with a bonus obstacle
             if (BlueCar.intersects(BlueBonus)) {
@@ -414,6 +433,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //                if(resetgame == true){
                 while (!resetgame) {
                 }
+                InstructionsPosition = 360;
                 Redcounter = 0;
                 Bluecounter = 0;
                 Redlane = 800;
@@ -431,8 +451,9 @@ public class GameDrawing extends JComponent implements KeyListener {
                 BlueCar.y = 550;
                 Loser = -1000;
                 Winner = -1000;
+                YouTied1 = -1000;
+                YouTied2 = -1000;
                 resetgame = false;
-
             }
 //            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
 //                break;
@@ -548,15 +569,19 @@ public class GameDrawing extends JComponent implements KeyListener {
         switch (keyCode) {
             case KeyEvent.VK_A:
                 left1 = true;
+                //               screech.play();
                 break;
             case KeyEvent.VK_D:
                 right1 = true;
+                //              screech.play();
                 break;
             case KeyEvent.VK_LEFT:
                 left2 = true;
+                //             screech.play();
                 break;
             case KeyEvent.VK_RIGHT:
                 right2 = true;
+                //              screech.play();
                 break;
             case KeyEvent.VK_W:
                 forward1 = true;
