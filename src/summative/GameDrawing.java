@@ -13,7 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -26,7 +29,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     static final int HEIGHT = 900;
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
-    long desiredFPS = 100;
+    long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
     // GAME VARIABLES WOULD GO HERE
     // Create variables to reset the game
@@ -77,6 +80,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     MP3Player crash = new MP3Player(ClassLoader.getSystemResource("audio/CRASH.mp3"));
     MP3Player screech = new MP3Player(ClassLoader.getSystemResource("audio/TireScreech.mp3"));
     MP3Player Music = new MP3Player(ClassLoader.getSystemResource("audio/Instrumental.mp3"));
+
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
 //        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
 //            return false;
@@ -88,7 +92,6 @@ public class GameDrawing extends JComponent implements KeyListener {
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
     // NOTE: This is already double buffered!(helps with framerate/speed)
-
     @Override
     public void paintComponent(Graphics g) {
         // always clear the screen first!
@@ -238,6 +241,7 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Avoid the blue circles", InstructionsPosition, 400);
         g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
+
         // GAME DRAWING ENDS HERE
     }
 
@@ -250,6 +254,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     // The main game loop
     // In here is where all the logic for my game will go
     public void run() {
+        // Play background music
+        Music.play();
         // Used to keep track of time used to draw and update the game
         // This is used to limit the framerate later on
         long startTime;
@@ -267,11 +273,6 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE
-
-
-
-
-
 
 
             // Remove the instructions from the screen once the counter reaches 400
@@ -410,6 +411,9 @@ public class GameDrawing extends JComponent implements KeyListener {
 
             // Break the loop once both cars collide
             if (speed1 == 0 && speed2 == 0) {
+                // Stop the Music
+                Music.stop();
+                // Display the results to each player. Either You Win, You Lose or You Tied
                 if (Redcounter > Bluecounter) {
                     MyColour2 = carRED;
                     MyColour1 = lightBlue;
@@ -426,13 +430,14 @@ public class GameDrawing extends JComponent implements KeyListener {
                     YouTied1 = 800;
                     YouTied2 = 100;
                 }
-                // Restart the game by pressing space
+                // Restart the game by resetting the variabeles once SPACE is pressed
                 resetText = 250;
 
                 repaint();
 //                if(resetgame == true){
                 while (!resetgame) {
                 }
+                Music.play();
                 InstructionsPosition = 360;
                 Redcounter = 0;
                 Bluecounter = 0;
@@ -569,19 +574,19 @@ public class GameDrawing extends JComponent implements KeyListener {
         switch (keyCode) {
             case KeyEvent.VK_A:
                 left1 = true;
-                //               screech.play();
+                //                              screech.play();
                 break;
             case KeyEvent.VK_D:
                 right1 = true;
-                //              screech.play();
+                //                             screech.play();
                 break;
             case KeyEvent.VK_LEFT:
                 left2 = true;
-                //             screech.play();
+                //                           screech.play();
                 break;
             case KeyEvent.VK_RIGHT:
                 right2 = true;
-                //              screech.play();
+                //                            screech.play();
                 break;
             case KeyEvent.VK_W:
                 forward1 = true;
@@ -639,5 +644,21 @@ public class GameDrawing extends JComponent implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+    // Method for importing images
+
+    public BufferedImage loadImage(String filename) {
+
+        BufferedImage img = null;
+
+        try {
+            // use ImageIO to load in an Image
+            // ClassLoader is used to go into a folder in the directory and grab the file
+            img = ImageIO.read(ClassLoader.getSystemResourceAsStream(filename));
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return img;
     }
 }
