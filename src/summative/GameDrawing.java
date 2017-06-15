@@ -38,12 +38,13 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Create 2 Cars
     Rectangle RedCar = new Rectangle(230, 650, 160, 245);
     Rectangle BlueCar = new Rectangle(930, 650, 160, 245);
-    // Create colours for the grass and the cars
+    // Create colours
     Color grassGreen = new Color(0, 92, 9);
     Color lightBlue = new Color(87, 139, 224);
     Color carRED = new Color(247, 27, 27);
     Color MyColour1 = new Color(250, 250, 250);
     Color MyColour2 = new Color(250, 250, 250);
+    Color Diamond = new Color(185,242,255);
     // Create variables to make the cars appear to move
     int Redlane = 800;
     int Bluelane = 800;
@@ -60,11 +61,17 @@ public class GameDrawing extends JComponent implements KeyListener {
     int Redcounter = 0;
     int Bluecounter = 0;
     // Create variables for obstacles
-    Rectangle Redball = new Rectangle(0, 800, 60, 60);
-    Rectangle Blueball = new Rectangle(0, 800, 60, 60);
+    Rectangle Redball = new Rectangle(0, 1000, 60, 60);
+    Rectangle Blueball = new Rectangle(0, 1000, 60, 60);
     // Create bonus obstacles
-    Rectangle RedBonus = new Rectangle(0, 835, 30, 30);
-    Rectangle BlueBonus = new Rectangle(0, 835, 30, 30);
+    Rectangle RedBonus = new Rectangle(0, 1035, 30, 30);
+    Rectangle BlueBonus = new Rectangle(0, 1035, 30, 30);
+    // Create super bonus obstacles that appear less often
+    Rectangle SBonusRed = new Rectangle (0, 1000, 60, 60);
+    Rectangle SBonusBlue = new Rectangle (0, 1000, 60, 60);
+    // Show +100 whenever a car collides with a yellow bonus obstacles
+    int HundredRed = -1000;
+    int HundredBlue = -1000;
     // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
@@ -79,6 +86,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     // Sound Effects
     MP3Player crash = new MP3Player(ClassLoader.getSystemResource("audio/CRASH.mp3"));
     MP3Player screech = new MP3Player(ClassLoader.getSystemResource("audio/TireScreech.mp3"));
+    MP3Player beep = new MP3Player(ClassLoader.getSystemResource("audio/Beep.mp3"));
+    MP3Player DiamondBonus = new MP3Player(ClassLoader.getSystemResource("audio/DiamondBonus.mp3"));
     MP3Player Music = new MP3Player(ClassLoader.getSystemResource("audio/Instrumental.mp3"));
 
 //    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
@@ -88,7 +97,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //            return true;
 //        }
 //    }
-    // GAME VARIABLES END HERE   
+    // GAME VARIABLES END HERE
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
     // NOTE: This is already double buffered!(helps with framerate/speed)
@@ -97,7 +106,7 @@ public class GameDrawing extends JComponent implements KeyListener {
         // always clear the screen first!
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
-        // GAME DRAWING GOES HERE 
+        // GAME DRAWING GOES HERE
         // Draw Grass
         g.setColor(grassGreen);
         g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -214,6 +223,10 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.yellow);
         g.fillOval(RedBonus.x, RedBonus.y, RedBonus.width, RedBonus.height);
         g.fillOval(BlueBonus.x, BlueBonus.y, BlueBonus.width, BlueBonus.height);
+        // Draw a super bonus that appears less often
+        g.setColor(Diamond);
+        g.fillOval(SBonusRed.x, SBonusRed.y, SBonusRed.width, SBonusRed.height);
+        g.fillOval(SBonusBlue.x, SBonusBlue.y, SBonusBlue.width, SBonusBlue.height);
         // Draw Obstacles
         g.setColor(Color.blue);
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
@@ -241,6 +254,12 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Avoid the blue circles", InstructionsPosition, 400);
         g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
+        
+        
+        
+        
+        
+        
 
         // GAME DRAWING ENDS HERE
     }
@@ -297,6 +316,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Redlane = 0;
                 Redball.y = 0;
                 RedBonus.y = 0;
+                SBonusRed.y = 0;
                 speed1 = velRed;
                 // Speed up every time the car passes an obstacle
                 if (velRed > 0 && velRed < 20) {
@@ -314,6 +334,51 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (space == 3) {
                     Redball.x = 470;
                 }
+                
+                
+                
+                
+                
+                
+                
+                // 10% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
+                Random Super = new Random();
+                int SuperBonus = Super.nextInt(10) + 1;
+                if (SuperBonus == 1) {
+                    SBonusRed.x = 270;
+                }
+                if (SuperBonus == 2) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 3) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 4) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 5) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 6) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 7) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 8) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 9) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 10) {
+                    SBonusRed.x = -2285;
+                }
+                
+                
+                
+                
+                
                 // Randomly generate obstacles in one of the three lanes
                 Random Bonus = new Random();
                 int Bonusobject = Bonus.nextInt(3) + 1;
@@ -331,6 +396,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             RedBonus.y = RedBonus.y + speed1;
             Redlane = Redlane + speed1;
             Redball.y = Redball.y + speed1;
+            SBonusRed.y = SBonusRed.y + speed1;
             // Stop moving if it collides with the obstacle
             if (RedCar.intersects(Redball)) {
 //                if (Loser != 800 && Winner != 100) {
@@ -339,13 +405,33 @@ public class GameDrawing extends JComponent implements KeyListener {
 //                }
                 speed1 = 0;
                 RedCar.y = -10000;
+                screech.play();
                 crash.play();
             }
             // Add 100 points if the car collides with a bonus obstacle
             if (RedCar.intersects(RedBonus)) {
+                beep.play();
                 Redcounter = Redcounter + 100;
                 RedBonus.y = 1000;
             }
+            
+            
+            
+            
+            
+            
+            if (RedCar.intersects(SBonusRed)) {
+    //            beep.play();
+                Redcounter = Redcounter + 1000;
+                SBonusRed.y = 1000;
+                DiamondBonus.play();
+            }
+            
+            
+            
+            
+            
+            
 //            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
 //                break;
 //            }
@@ -359,6 +445,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Bluelane = 0;
                 Blueball.y = 0;
                 BlueBonus.y = 0;
+                SBonusBlue.y = 0;
                 speed2 = velBlue;
                 // Speed up every time the car passes an obstacle
                 if (velBlue > 0 && velBlue < 20) {
@@ -376,6 +463,49 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (Bonusobject == 3) {
                     BlueBonus.x = 1185;
                 }
+                
+                
+                
+                
+                
+                
+                // 10% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
+                Random Super = new Random();
+                int SuperBonus = Super.nextInt(10) + 1;
+                if (SuperBonus == 1) {
+                    SBonusBlue.x = 970;
+                }
+                if (SuperBonus == 2) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 3) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 4) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 5) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 6) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 7) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 8) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 9) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 10) {
+                    SBonusBlue.x = -2285;
+                }
+                
+                
+                
+                
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
                 int object = rand.nextInt(3) + 1;
@@ -393,18 +523,22 @@ public class GameDrawing extends JComponent implements KeyListener {
             Bluelane = Bluelane + speed2;
             Blueball.y = Blueball.y + speed2;
             BlueBonus.y = BlueBonus.y + speed2;
+            SBonusBlue.y = SBonusBlue.y + speed2;
             // Break the loop if it collides with the obstacle
             if (BlueCar.intersects(Blueball)) {
-//                if (Loser != 100 && Winner != 800) {
-//                    Loser = 800;
-//                    Winner = 100;
-//                }
                 BlueCar.y = -10000;
                 speed2 = 0;
+                screech.play();
                 crash.play();
+            }
+            if (BlueCar.intersects(SBonusBlue)) {
+                Bluecounter = Bluecounter + 1000;
+                SBonusBlue.y = 1000;
+                DiamondBonus.play();
             }
             // Add 100 points if the blue car collides with a bonus obstacle
             if (BlueCar.intersects(BlueBonus)) {
+                beep.play();
                 Bluecounter = Bluecounter + 100;
                 BlueBonus.y = 1000;
             }
@@ -448,12 +582,16 @@ public class GameDrawing extends JComponent implements KeyListener {
                 velRed = 3;
                 velBlue = 3;
                 resetText = -2250;
-                Redball.y = 800;
-                Blueball.y = 800;
-                RedBonus.y = 835;
-                BlueBonus.y = 835;
-                RedCar.y = 550;
-                BlueCar.y = 550;
+                Redball.y = 1000;
+                Blueball.y = 1000;
+                RedBonus.y = 1035;
+                BlueBonus.y = 1035;
+                SBonusBlue.y = 1000;
+                SBonusRed.y = 1000;
+                RedCar.y = 650;
+                BlueCar.y = 650;
+                RedCar.x = 230;
+                BlueCar.x = 930;
                 Loser = -1000;
                 Winner = -1000;
                 YouTied1 = -1000;
@@ -498,7 +636,7 @@ public class GameDrawing extends JComponent implements KeyListener {
                 BlueCar.y += 10;
             }
 
-            // GAME LOGIC ENDS HERE 
+            // GAME LOGIC ENDS HERE
             // update the drawing (calls paintComponent)
             repaint();
 
