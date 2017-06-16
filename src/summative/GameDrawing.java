@@ -44,7 +44,7 @@ public class GameDrawing extends JComponent implements KeyListener {
     Color carRED = new Color(247, 27, 27);
     Color MyColour1 = new Color(250, 250, 250);
     Color MyColour2 = new Color(250, 250, 250);
-    Color Diamond = new Color(185,242,255);
+    Color Diamond = new Color(185, 242, 255);
     // Create variables to make the cars appear to move
     int Redlane = 800;
     int Bluelane = 800;
@@ -67,11 +67,8 @@ public class GameDrawing extends JComponent implements KeyListener {
     Rectangle RedBonus = new Rectangle(0, 1035, 30, 30);
     Rectangle BlueBonus = new Rectangle(0, 1035, 30, 30);
     // Create super bonus obstacles that appear less often
-    Rectangle SBonusRed = new Rectangle (0, 1000, 60, 60);
-    Rectangle SBonusBlue = new Rectangle (0, 1000, 60, 60);
-    // Show +100 whenever a car collides with a yellow bonus obstacles
-    int HundredRed = -1000;
-    int HundredBlue = -1000;
+    Rectangle SBonusRed = new Rectangle(-1000, 1000, 60, 60);
+    Rectangle SBonusBlue = new Rectangle(-1000, 1000, 60, 60);
     // Variables to control cars
     boolean right1 = false, left1 = false;
     boolean right2 = false, left2 = false;
@@ -90,13 +87,6 @@ public class GameDrawing extends JComponent implements KeyListener {
     MP3Player DiamondBonus = new MP3Player(ClassLoader.getSystemResource("audio/DiamondBonus.mp3"));
     MP3Player Music = new MP3Player(ClassLoader.getSystemResource("audio/Instrumental.mp3"));
 
-//    public boolean collides(int x, int y, int w, int h, int bx, int by, int bw, int bh) {
-//        if ((x + w < bx || x > bx + bw || y + h < by || y > by + bh)) {
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
     // GAME VARIABLES END HERE
     // drawing of the game happens in here
     // we use the Graphics object, g, to perform the drawing
@@ -254,12 +244,12 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Avoid the blue circles", InstructionsPosition, 400);
         g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
 
         // GAME DRAWING ENDS HERE
     }
@@ -334,14 +324,8 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (space == 3) {
                     Redball.x = 470;
                 }
-                
-                
-                
-                
-                
-                
-                
-                // 10% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
+
+                // 5% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
                 Random Super = new Random();
                 int SuperBonus = Super.nextInt(10) + 1;
                 if (SuperBonus == 1) {
@@ -374,11 +358,37 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (SuperBonus == 10) {
                     SBonusRed.x = -2285;
                 }
-                
-                
-                
-                
-                
+                if (SuperBonus == 11) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 12) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 13) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 14) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 15) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 16) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 17) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 18) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 19) {
+                    SBonusRed.x = -2285;
+                }
+                if (SuperBonus == 20) {
+                    SBonusRed.x = -2285;
+                }
+
                 // Randomly generate obstacles in one of the three lanes
                 Random Bonus = new Random();
                 int Bonusobject = Bonus.nextInt(3) + 1;
@@ -414,27 +424,13 @@ public class GameDrawing extends JComponent implements KeyListener {
                 Redcounter = Redcounter + 100;
                 RedBonus.y = 1000;
             }
-            
-            
-            
-            
-            
-            
+
             if (RedCar.intersects(SBonusRed)) {
-    //            beep.play();
                 Redcounter = Redcounter + 1000;
                 SBonusRed.y = 1000;
                 DiamondBonus.play();
             }
-            
-            
-            
-            
-            
-            
-//            if(collides(RedCar.x, RedCar.y, RedCar.width, RedCar.height, Redball.x, Redball.y, Redball.width, Redball.height)){
-//                break;
-//            }
+
 
             // Blue Car Start
             // Make the car appear to move
@@ -463,15 +459,10 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (Bonusobject == 3) {
                     BlueBonus.x = 1185;
                 }
-                
-                
-                
-                
-                
-                
-                // 10% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
+
+                // 5% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
                 Random Super = new Random();
-                int SuperBonus = Super.nextInt(10) + 1;
+                int SuperBonus = Super.nextInt(20) + 1;
                 if (SuperBonus == 1) {
                     SBonusBlue.x = 970;
                 }
@@ -502,10 +493,37 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (SuperBonus == 10) {
                     SBonusBlue.x = -2285;
                 }
-                
-                
-                
-                
+                if (SuperBonus == 11) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 12) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 13) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 14) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 15) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 16) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 17) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 18) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 19) {
+                    SBonusBlue.x = -2285;
+                }
+                if (SuperBonus == 20) {
+                    SBonusBlue.x = -2285;
+                }
+
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
                 int object = rand.nextInt(3) + 1;
@@ -598,10 +616,6 @@ public class GameDrawing extends JComponent implements KeyListener {
                 YouTied2 = -1000;
                 resetgame = false;
             }
-//            if(collides(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, Blueball.x, Blueball.y, Blueball.width, Blueball.height)){
-//                break;
-//            }
-
             // Set controls for movement
             // Red Car right
             if (right1 && RedCar.x < 440) {
