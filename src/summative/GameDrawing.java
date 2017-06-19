@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import static java.awt.image.ImageObserver.ERROR;
 import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
@@ -213,10 +214,13 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.yellow);
         g.fillOval(RedBonus.x, RedBonus.y, RedBonus.width, RedBonus.height);
         g.fillOval(BlueBonus.x, BlueBonus.y, BlueBonus.width, BlueBonus.height);
-        // Draw a super bonus that appears less often
-        g.setColor(Diamond);
-        g.fillOval(SBonusRed.x, SBonusRed.y, SBonusRed.width, SBonusRed.height);
-        g.fillOval(SBonusBlue.x, SBonusBlue.y, SBonusBlue.width, SBonusBlue.height);
+        // Draw a super bonus that appears less often using a buffered image
+        BufferedImage Diamondpic = loadImage("Images/Diamond.png");
+        g.drawImage(Diamondpic, SBonusRed.x, SBonusRed.y, null);
+        g.drawImage(Diamondpic, SBonusBlue.x, SBonusBlue.y, null);
+        //       g.setColor(Diamond);
+        //       g.fillOval(SBonusRed.x, SBonusRed.y, SBonusRed.width, SBonusRed.height);
+        //       g.fillOval(SBonusBlue.x, SBonusBlue.y, SBonusBlue.width, SBonusBlue.height);
         // Draw Obstacles
         g.setColor(Color.blue);
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
@@ -244,8 +248,7 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.setColor(Color.WHITE);
         g.drawString("Avoid the blue circles", InstructionsPosition, 400);
         g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
-
-
+        g.drawString("Drive into the diamonds for a 1000 point bonus!", InstructionsPosition - 340, 600);
 
 
 
@@ -327,7 +330,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 
                 // 5% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
                 Random Super = new Random();
-                int SuperBonus = Super.nextInt(10) + 1;
+                int SuperBonus = Super.nextInt(20) + 1;
                 if (SuperBonus == 1) {
                     SBonusRed.x = 270;
                 }
