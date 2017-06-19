@@ -226,7 +226,7 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillOval(Redball.x, Redball.y, Redball.width, Redball.height);
         g.fillOval(Blueball.x, Blueball.y, Blueball.width, Blueball.height);
 
-        // You Lost!
+        // Display either you won, you lost or you tied depending on the result
         g.setFont(myFont);
         g.setColor(MyColour1);
         g.drawString("You Lose", Loser, 100);
@@ -249,10 +249,6 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.drawString("Avoid the blue circles", InstructionsPosition, 400);
         g.drawString("Drive into the yellow circles for a 100 point bonus", InstructionsPosition - 360, 500);
         g.drawString("Drive into the diamonds for a 1000 point bonus!", InstructionsPosition - 340, 600);
-
-
-
-
 
         // GAME DRAWING ENDS HERE
     }
