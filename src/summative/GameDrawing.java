@@ -207,7 +207,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 //
 //        g.setColor(lightBlue);
 //        g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
-        
+
         // Import image of the Blue Car
         BufferedImage Player2 = loadImage("Images/BlueCar.png");
         g.drawImage(Player2, BlueCar.x, BlueCar.y, null);
