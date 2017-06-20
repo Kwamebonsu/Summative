@@ -168,43 +168,49 @@ public class GameDrawing extends JComponent implements KeyListener {
         g.fillRect(1090, Bluelane - 400, 20, 100);
         g.fillRect(1090, Bluelane - 200, 20, 100);
         g.fillRect(1090, Bluelane, 20, 100);
-        // Draw the first Car
-        // Draw the Car Body
-        g.setColor(carRED);
-        g.fillRoundRect(RedCar.x, RedCar.y, RedCar.width, RedCar.height, 35, 35);
-
-        // Front Windshield
-        g.setColor(Color.DARK_GRAY);
-        g.fillArc(RedCar.x - 70, RedCar.y + 75, 300, 250, 70, 40);
-
-        g.setColor(carRED);
-        g.fillArc(RedCar.x - 15, RedCar.y + 115, 190, 210, 67, 45);
-
-        // Back Windshield
-        g.setColor(Color.DARK_GRAY);
-        g.fillArc(RedCar.x - 70, RedCar.y - 15, 300, 250, 250, 40);
-
-        g.setColor(carRED);
-        g.fillArc(RedCar.x - 70, RedCar.y + 22, 300, 180, 248, 45);
-
+//        // Draw the first Car
+//        // Draw the Car Body
+//        g.setColor(carRED);
+//        g.fillRoundRect(RedCar.x, RedCar.y, RedCar.width, RedCar.height, 35, 35);
+//
+//        // Front Windshield
+//        g.setColor(Color.DARK_GRAY);
+//        g.fillArc(RedCar.x - 70, RedCar.y + 75, 300, 250, 70, 40);
+//
+//        g.setColor(carRED);
+//        g.fillArc(RedCar.x - 15, RedCar.y + 115, 190, 210, 67, 45);
+//
+//        // Back Windshield
+//        g.setColor(Color.DARK_GRAY);
+//        g.fillArc(RedCar.x - 70, RedCar.y - 15, 300, 250, 250, 40);
+//
+//        g.setColor(carRED);
+//        g.fillArc(RedCar.x - 70, RedCar.y + 22, 300, 180, 248, 45);
+        // Import image of the red Car
+        BufferedImage Player1 = loadImage("Images/RedCar.png");
+        g.drawImage(Player1, RedCar.x, RedCar.y, null);
         // Draw the second car
-        // Draw the Car Body
-        g.setColor(lightBlue);
-        g.fillRoundRect(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, 35, 35);
-
-        // Front Windshield
-        g.setColor(Color.DARK_GRAY);
-        g.fillArc(BlueCar.x - 70, BlueCar.y + 75, 300, 250, 70, 40);
-
-        g.setColor(lightBlue);
-        g.fillArc(BlueCar.x - 15, BlueCar.y + 115, 190, 210, 67, 45);
-
-        // Back Windshield
-        g.setColor(Color.DARK_GRAY);
-        g.fillArc(BlueCar.x - 70, BlueCar.y - 15, 300, 250, 250, 40);
-
-        g.setColor(lightBlue);
-        g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
+//        // Draw the Car Body
+//        g.setColor(lightBlue);
+//        g.fillRoundRect(BlueCar.x, BlueCar.y, BlueCar.width, BlueCar.height, 35, 35);
+//
+//        // Front Windshield
+//        g.setColor(Color.DARK_GRAY);
+//        g.fillArc(BlueCar.x - 70, BlueCar.y + 75, 300, 250, 70, 40);
+//
+//        g.setColor(lightBlue);
+//        g.fillArc(BlueCar.x - 15, BlueCar.y + 115, 190, 210, 67, 45);
+//
+//        // Back Windshield
+//        g.setColor(Color.DARK_GRAY);
+//        g.fillArc(BlueCar.x - 70, BlueCar.y - 15, 300, 250, 250, 40);
+//
+//        g.setColor(lightBlue);
+//        g.fillArc(BlueCar.x - 70, BlueCar.y + 22, 300, 180, 248, 45);
+        
+        // Import image of the Blue Car
+        BufferedImage Player2 = loadImage("Images/BlueCar.png");
+        g.drawImage(Player2, BlueCar.x, BlueCar.y, null);
         // Draw Bonus Obstacles
         g.setColor(Color.yellow);
         g.fillOval(RedBonus.x, RedBonus.y, RedBonus.width, RedBonus.height);
@@ -304,7 +310,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (Redlane >= 1600) {
                 Redlane = 0;
                 Redball.y = 0;
-                RedBonus.y = 0;
+                RedBonus.y = 20;
                 SBonusRed.y = 0;
                 speed1 = velRed;
                 // Speed up every time the car passes an obstacle
@@ -326,7 +332,7 @@ public class GameDrawing extends JComponent implements KeyListener {
 
                 // 5% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
                 Random Super = new Random();
-                int SuperBonus = Super.nextInt(20) + 1;
+                int SuperBonus = Super.nextInt(10) + 1;
                 if (SuperBonus == 1) {
                     SBonusRed.x = 270;
                 }
@@ -357,36 +363,36 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (SuperBonus == 10) {
                     SBonusRed.x = -2285;
                 }
-                if (SuperBonus == 11) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 12) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 13) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 14) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 15) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 16) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 17) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 18) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 19) {
-                    SBonusRed.x = -2285;
-                }
-                if (SuperBonus == 20) {
-                    SBonusRed.x = -2285;
-                }
+//                if (SuperBonus == 11) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 12) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 13) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 14) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 15) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 16) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 17) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 18) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 19) {
+//                    SBonusRed.x = -2285;
+//                }
+//                if (SuperBonus == 20) {
+//                    SBonusRed.x = -2285;
+//                }
 
                 // Randomly generate obstacles in one of the three lanes
                 Random Bonus = new Random();
@@ -439,7 +445,7 @@ public class GameDrawing extends JComponent implements KeyListener {
             if (Bluelane >= 1600) {
                 Bluelane = 0;
                 Blueball.y = 0;
-                BlueBonus.y = 0;
+                BlueBonus.y = 20;
                 SBonusBlue.y = 0;
                 speed2 = velBlue;
                 // Speed up every time the car passes an obstacle
@@ -459,9 +465,9 @@ public class GameDrawing extends JComponent implements KeyListener {
                     BlueBonus.x = 1185;
                 }
 
-                // 5% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
+                // 10% chance to Randomly generate Super Bonus obstacles that add 1000, in the middle lane
                 Random Super = new Random();
-                int SuperBonus = Super.nextInt(20) + 1;
+                int SuperBonus = Super.nextInt(10) + 1;
                 if (SuperBonus == 1) {
                     SBonusBlue.x = 970;
                 }
@@ -492,36 +498,36 @@ public class GameDrawing extends JComponent implements KeyListener {
                 if (SuperBonus == 10) {
                     SBonusBlue.x = -2285;
                 }
-                if (SuperBonus == 11) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 12) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 13) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 14) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 15) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 16) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 17) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 18) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 19) {
-                    SBonusBlue.x = -2285;
-                }
-                if (SuperBonus == 20) {
-                    SBonusBlue.x = -2285;
-                }
+//                if (SuperBonus == 11) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 12) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 13) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 14) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 15) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 16) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 17) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 18) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 19) {
+//                    SBonusBlue.x = -2285;
+//                }
+//                if (SuperBonus == 20) {
+//                    SBonusBlue.x = -2285;
+//                }
 
                 // Randomly generate obstacles in one of the three lanes
                 Random rand = new Random();
